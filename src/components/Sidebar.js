@@ -1,9 +1,9 @@
 // src/components/Sidebar.js
 import React from 'react';
 import { Button, Paper } from '@mui/material';
-import './Sidebar.css'; 
+import './Sidebar.css';
 
-const Sidebar = ({ handleOpen, handleUpdate }) => {
+const Sidebar = ({ handleOpen, handleUpdate, handleRevisao }) => {
   return (
     <Paper className="sidebar">
       <Button 
@@ -23,6 +23,7 @@ const Sidebar = ({ handleOpen, handleUpdate }) => {
       <Button 
         variant="contained" 
         sx={{ fontSize: '10px', padding: '6px', margin: '6px 0', width: '100%' }}
+        onClick={handleRevisao}
       >
         Fazer Revisão
       </Button>

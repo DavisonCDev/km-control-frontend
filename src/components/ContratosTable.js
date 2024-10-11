@@ -1,6 +1,5 @@
-// src/components/ContratosTable.js
 import React from 'react';
-import './ContratosTable.css'; // Importa o arquivo CSS
+import './ContratosTable.css';
 
 const ContratosTable = ({ contratos }) => {
   if (!contratos || contratos.length === 0) return <p>Nenhum contrato encontrado.</p>;
@@ -14,6 +13,7 @@ const ContratosTable = ({ contratos }) => {
           <th>Cond. Responsável</th>
           <th>Placa</th>
           <th>Modelo</th>
+          <th>KM Atual</th>
           <th>Média(KM)</th>
           <th>Observações</th>
         </tr>
@@ -36,6 +36,7 @@ const ContratosTable = ({ contratos }) => {
               <td>{contrato.condutorResponsavel}</td>
               <td>{contrato.placa}</td>
               <td>{contrato.modelo}</td>
+              <td>{contrato.kmAtual}</td>
               <td>{contrato.kmMediaMensal}</td>
               <td>{contrato.observacoes}</td>
             </tr>

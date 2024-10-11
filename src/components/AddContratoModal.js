@@ -1,7 +1,6 @@
-// src/components/AddContratoModal.js
 import React from 'react';
 import { Modal, Paper, Typography, TextField, Button } from '@mui/material';
-import './AddContratoModal.css'; // Importa o arquivo CSS
+import './AddContratoModal.css';
 
 const AddContratoModal = ({ open, handleClose, handleChange, handleSubmit, newContrato }) => {
   return (
@@ -12,7 +11,7 @@ const AddContratoModal = ({ open, handleClose, handleChange, handleSubmit, newCo
           <TextField
             key={key}
             name={key}
-            label={key.charAt(0).toUpperCase() + key.slice(1).replace(/([A-Z])/g, ' $1')} // Formatação de label
+            label={key.charAt(0).toUpperCase() + key.slice(1).replace(/([A-Z])/g, ' $1')}
             fullWidth
             margin="normal"
             type={typeof newContrato[key] === 'number' ? 'number' : 'text'}

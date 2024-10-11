@@ -1,5 +1,4 @@
-/* src/components/Sidebar.css */
 .sidebar {
-    padding: 8px; /* Espaçamento interno do contêiner da sidebar */
-    text-align: left; /* Alinhamento do texto à esquerda */
+    padding: 8px;
+    text-align: left;
 }
