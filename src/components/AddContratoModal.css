@@ -1,0 +1,16 @@
+/* src/components/AddContratoModal.css */
+.modalPaper {
+    padding: 20px;
+    margin: auto;
+    width: 400px;
+    max-height: 80vh; /* Altura máxima para o modal */
+    overflow-y: auto; /* Permitir rolagem vertical */
+    margin-top: 100px;
+  }
+  
+  .modalButtonContainer {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+  
