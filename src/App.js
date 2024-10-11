@@ -7,7 +7,7 @@ const App = () => {
 
   useEffect(() => {
     const fetchContratos = async () => {
-      const response = await axios.get('/api/contratos/ultimos'); // Ajuste a URL conforme necessário
+      const response = await axios.get('http://localhost:8081/api/contratos/ultimos'); // Ajuste a URL conforme necessário
       setContratos(response.data);
     };
 
