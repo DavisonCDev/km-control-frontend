@@ -14,41 +14,54 @@ const App = () => {
     fetchContratos();
   }, []);
 
+  // Estilo para os botões
+  const buttonStyle = {
+    margin: '5px 0',
+    fontSize: '12px', // Tamanho da fonte dos botões
+    fontFamily: 'Roboto, sans-serif' // Fonte dos botões
+  };
+
   return (
     <Container>
-      <Typography variant="h2" align="center" style={{ margin: '20px 0', fontFamily: 'cursive' }}>
+      <Typography variant="h4" align="left" style={{ margin: '20px 0', fontFamily: 'Roboto, sans-serif' }}>
         KM Control
       </Typography>
       <Grid container spacing={2}>
-        <Grid item xs={3}>
-          <Paper style={{ padding: '20px' }}>
-            <Button variant="contained" fullWidth style={{ margin: '10px 0' }}>Botão 1</Button>
-            <Button variant="contained" fullWidth style={{ margin: '10px 0' }}>Botão 2</Button>
-            <Button variant="contained" fullWidth style={{ margin: '10px 0' }}>Botão 3</Button>
-            <Button variant="contained" fullWidth style={{ margin: '10px 0' }}>Botão 4</Button>
-            <Button variant="contained" fullWidth style={{ margin: '10px 0' }}>Botão 5</Button>
-            <Button variant="contained" fullWidth style={{ margin: '10px 0' }}>Botão 6</Button>
+        <Grid item xs={2}>
+          <Paper style={{ padding: '10px', textAlign: 'left' }}>
+            <Button variant="contained" fullWidth style={buttonStyle}>Add Contrato</Button>
+            <Button variant="contained" fullWidth style={buttonStyle}>Atualizar KM</Button>
+            <Button variant="contained" fullWidth style={buttonStyle}>Fazer Revisão</Button>
+            <Button variant="contained" fullWidth style={buttonStyle}>Substituir Veículo</Button>
+            <Button variant="contained" fullWidth style={buttonStyle}>Apagar Contrato</Button>
+            <Button variant="contained" fullWidth style={buttonStyle}>Histórico de Registros</Button>
           </Paper>
         </Grid>
-        <Grid item xs={9}>
-          <Paper style={{ padding: '20px' }}>
-            <Typography variant="h4">Últimos Contratos</Typography>
+        <Grid item xs={10} style={{ overflowX: 'auto' }}>
+          <Paper style={{ padding: '20px', border: '1px solid #ddd' }}>
+            <Typography variant="h4">Contratos</Typography>
             <table style={{ width: '100%', borderCollapse: 'collapse' }}>
               <thead>
                 <tr>
-                  <th style={{ border: '1px solid #ddd', padding: '8px' }}>Número do Contrato</th>
-                  <th style={{ border: '1px solid #ddd', padding: '8px' }}>Condutor Principal</th>
-                  <th style={{ border: '1px solid #ddd', padding: '8px' }}>Data Vigência</th>
-                  {/* Adicione mais colunas conforme necessário */}
+                  <th style={{ border: '1px solid #ddd', padding: '6px', fontSize: '14px' }}>Nº do Contrato</th>
+                  <th style={{ border: '1px solid #ddd', padding: '6px', fontSize: '14px' }}>Data Vigência</th>
+                  <th style={{ border: '1px solid #ddd', padding: '6px', fontSize: '14px' }}>Cond. Responsável</th>
+                  <th style={{ border: '1px solid #ddd', padding: '6px', fontSize: '14px' }}>Placa</th>
+                  <th style={{ border: '1px solid #ddd', padding: '6px', fontSize: '14px' }}>Modelo</th>
+                  <th style={{ border: '1px solid #ddd', padding: '6px', fontSize: '14px' }}>Média(KM)</th>
+                  <th style={{ border: '1px solid #ddd', padding: '6px', fontSize: '14px' }}>Observações</th>
                 </tr>
               </thead>
               <tbody>
                 {contratos.map(contrato => (
-                  <tr key={contrato.id}>
-                    <td style={{ border: '1px solid #ddd', padding: '8px' }}>{contrato.numeroContrato}</td>
-                    <td style={{ border: '1px solid #ddd', padding: '8px' }}>{contrato.condutorPrincipal}</td>
-                    <td style={{ border: '1px solid #ddd', padding: '8px' }}>{contrato.dataVigencia}</td>
-                    {/* Adicione mais células conforme necessário */}
+                  <tr key={contrato.id} style={{ transition: 'background-color 0.2s' }}>
+                    <td style={{ border: '1px solid #ddd', padding: '6px', fontSize: '12px' }}>{contrato.numeroContrato}</td>
+                    <td style={{ border: '1px solid #ddd', padding: '6px', fontSize: '12px' }}>{contrato.dataVigencia}</td>
+                    <td style={{ border: '1px solid #ddd', padding: '6px', fontSize: '12px' }}>{contrato.condutorResponsavel}</td>
+                    <td style={{ border: '1px solid #ddd', padding: '6px', fontSize: '12px' }}>{contrato.placa}</td>
+                    <td style={{ border: '1px solid #ddd', padding: '6px', fontSize: '12px' }}>{contrato.modelo}</td>
+                    <td style={{ border: '1px solid #ddd', padding: '6px', fontSize: '12px' }}>{contrato.kmMediaMensal}</td>
+                    <td style={{ border: '1px solid #ddd', padding: '6px', fontSize: '12px' }}>{contrato.observacoes}</td>
                   </tr>
                 ))}
               </tbody>
