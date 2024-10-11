@@ -1,86 +1,51 @@
 // src/components/Sidebar.js
 import React from 'react';
 import { Button, Paper } from '@mui/material';
-import PropTypes from 'prop-types'; 
 import './Sidebar.css'; 
 
-const Sidebar = ({ handleOpen }) => {
+const Sidebar = ({ handleOpen, handleUpdate }) => {
   return (
     <Paper className="sidebar">
-      <Button
-        variant="contained"
-        fullWidth
-        sx={{
-          margin: '5px 0',
-          fontSize: '10px', // Diminuir o tamanho da fonte
-          padding: '4px 8px', // Diminuir o padding para reduzir o tamanho do botão
-        }}
+      <Button 
+        variant="contained" 
+        sx={{ fontSize: '10px', padding: '6px', margin: '10px 0', width: '100%' }} 
         onClick={handleOpen}
       >
         Add Contrato
       </Button>
-      <Button
-        variant="contained"
-        fullWidth
-        sx={{
-          margin: '5px 0',
-          fontSize: '10px',
-          padding: '4px 8px',
-        }}
+      <Button 
+        variant="contained" 
+        sx={{ fontSize: '10px', padding: '6px', margin: '6px 0', width: '100%' }} 
+        onClick={handleUpdate}
       >
         Atualizar KM
       </Button>
-      <Button
-        variant="contained"
-        fullWidth
-        sx={{
-          margin: '5px 0',
-          fontSize: '10px',
-          padding: '4px 8px',
-        }}
+      <Button 
+        variant="contained" 
+        sx={{ fontSize: '10px', padding: '6px', margin: '6px 0', width: '100%' }}
       >
         Fazer Revisão
       </Button>
-      <Button
-        variant="contained"
-        fullWidth
-        sx={{
-          margin: '5px 0',
-          fontSize: '10px',
-          padding: '4px 8px',
-        }}
+      <Button 
+        variant="contained" 
+        sx={{ fontSize: '10px', padding: '6px', margin: '6px 0', width: '100%' }}
       >
         Substituir Veículo
       </Button>
-      <Button
-        variant="contained"
-        fullWidth
-        sx={{
-          margin: '5px 0',
-          fontSize: '10px',
-          padding: '4px 8px',
-        }}
+      <Button 
+        variant="contained" 
+        sx={{ fontSize: '10px', padding: '6px', margin: '6px 0', width: '100%' }}
       >
         Apagar Contrato
       </Button>
-      <Button
-        variant="contained"
-        fullWidth
-        sx={{
-          margin: '5px 0',
-          fontSize: '10px',
-          padding: '4px 8px',
-        }}
+      <Button 
+        variant="contained" 
+        sx={{ fontSize: '10px', padding: '6px', margin: '6px 0', width: '100%' }}
       >
         Histórico
       </Button>
     </Paper>
   );
-};
-
-// Definindo as propTypes
-Sidebar.propTypes = {
-  handleOpen: PropTypes.func.isRequired,
 };
 
 export default Sidebar;

@@ -2,8 +2,8 @@
 .table {
     width: 100%;
     border-collapse: separate;
-    border-spacing: 0;
-    border-radius: 8px;
+    border-spacing: 6px;
+    border-radius: 6px;
     overflow: hidden;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
@@ -22,6 +22,6 @@
 }
 
 .table td {
-    padding: 8px;
+    padding: 6px;
     font-size: 12px; /* Diminuir o tamanho da fonte das células */
 }
