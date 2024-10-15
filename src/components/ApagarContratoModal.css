@@ -1,0 +1,15 @@
+/* src/components/ApagarContratoModal.css */
+.modalPaper {
+    padding: 10px;
+    margin: auto;
+    width: 350px;
+    max-height: 80vh; 
+    overflow-y: auto; 
+    margin-top: 100px;
+}
+
+.modalButtonContainer {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+}

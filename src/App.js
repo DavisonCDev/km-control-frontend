@@ -1,17 +1,24 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Typography, Grid, Paper } from '@mui/material';
+import { Container, Typography, Grid, Paper} from '@mui/material';
 import axios from 'axios';
 import ContratosTable from './components/ContratosTable';
 import AddContratoModal from './components/AddContratoModal';
 import Sidebar from './components/Sidebar';
 import AtualizarKmModal from './components/AtualizarKmModal';
-import FazerRevisaoModal from './components/FazerRevisaoModal'; // Importa o novo modal
+import FazerRevisaoModal from './components/FazerRevisaoModal';
+import SubstituirVeiculoModal from './components/SubstituirVeiculoModal';
+import ApagarContratoModal from './components/ApagarContratoModal';
+import HistoricoModal from './components/HistoricoModal'; 
 
 const App = () => {
   const [contratos, setContratos] = useState([]);
   const [openAdd, setOpenAdd] = useState(false);
   const [openUpdate, setOpenUpdate] = useState(false);
-  const [openRevisao, setOpenRevisao] = useState(false); // Estado para o modal de revisão
+  const [openRevisao, setOpenRevisao] = useState(false);
+  const [openSubstituir, setOpenSubstituir] = useState(false);
+  const [openApagar, setOpenApagar] = useState(false);
+  const [openHistorico, setOpenHistorico] = useState(false);
+
   const [newContrato, setNewContrato] = useState({
     condutorPrincipal: '',
     condutorResponsavel: '',
@@ -28,12 +35,27 @@ const App = () => {
     placa: '',
     valorAluguel: 0,
   });
+
   const [kmData, setKmData] = useState({
     placa: '',
     kmAtual: 0,
   });
+
   const [revisaoData, setRevisaoData] = useState({
     placa: '',
+  });
+
+  const [substituicaoData, setSubstituicaoData] = useState({
+    numeroContrato: '',
+    placa: '',
+    kmInicial: 0,
+    dataSubstituicao: '',
+    marca: '',
+    modelo: '',
+  });
+
+  const [contratoParaApagar, setContratoParaApagar] = useState({
+    numeroContrato: '',
   });
 
   useEffect(() => {
@@ -48,8 +70,14 @@ const App = () => {
   const handleCloseAdd = () => setOpenAdd(false);
   const handleOpenUpdate = () => setOpenUpdate(true);
   const handleCloseUpdate = () => setOpenUpdate(false);
-  const handleOpenRevisao = () => setOpenRevisao(true); // Abre o modal de revisão
-  const handleCloseRevisao = () => setOpenRevisao(false); // Fecha o modal de revisão
+  const handleOpenRevisao = () => setOpenRevisao(true);
+  const handleCloseRevisao = () => setOpenRevisao(false);
+  const handleOpenSubstituir = () => setOpenSubstituir(true);
+  const handleCloseSubstituir = () => setOpenSubstituir(false);
+  const handleOpenApagar = () => setOpenApagar(true);
+  const handleCloseApagar = () => setOpenApagar(false);
+  const handleOpenHistorico = () => setOpenHistorico(true); 
+  const handleCloseHistorico = () => setOpenHistorico(false); 
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -64,6 +92,16 @@ const App = () => {
   const handleRevisaoChange = (e) => {
     const { name, value } = e.target;
     setRevisaoData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubstituicaoChange = (e) => {
+    const { name, value } = e.target;
+    setSubstituicaoData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleApagarChange = (e) => {
+    const { name, value } = e.target;
+    setContratoParaApagar((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async () => {
@@ -104,6 +142,28 @@ const App = () => {
     }
   };
 
+  const handleSubstituicaoSubmit = async () => {
+    try {
+      await axios.post('http://localhost:8081/api/contratos/substituirVeiculo', substituicaoData);
+      handleCloseSubstituir();
+      const response = await axios.get('http://localhost:8081/api/contratos/ultimos');
+      setContratos(response.data);
+    } catch (error) {
+      console.error('Erro ao substituir veículo:', error.response ? error.response.data : error.message);
+    }
+  };
+
+  const handleApagarSubmit = async () => {
+    try {
+      await axios.delete(`http://localhost:8081/api/contratos`, { data: contratoParaApagar });
+      handleCloseApagar();
+      const response = await axios.get('http://localhost:8081/api/contratos/ultimos');
+      setContratos(response.data);
+    } catch (error) {
+      console.error('Erro ao apagar contrato:', error.response ? error.response.data : error.message);
+    }
+  };
+
   return (
     <Container>
       <Typography variant="h4" align="left" sx={{ margin: '20px 0', fontWeight: 'bold', color: '#333', textTransform: 'uppercase' }}>
@@ -111,7 +171,14 @@ const App = () => {
       </Typography>
       <Grid container spacing={8}>
         <Grid item xs={2}>
-          <Sidebar handleOpen={handleOpenAdd} handleUpdate={handleOpenUpdate} handleRevisao={handleOpenRevisao} />
+          <Sidebar 
+            handleOpen={handleOpenAdd} 
+            handleUpdate={handleOpenUpdate} 
+            handleRevisao={handleOpenRevisao} 
+            handleSubstituir={handleOpenSubstituir} 
+            handleApagar={handleOpenApagar} 
+            handleHistorico={handleOpenHistorico}
+          />
         </Grid>
         <Grid item xs={10} style={{ overflowX: 'auto' }}>
           <Paper style={{ padding: '10px', border: '1px solid #ddd' }}>
@@ -122,6 +189,9 @@ const App = () => {
       <AddContratoModal open={openAdd} handleClose={handleCloseAdd} handleChange={handleChange} handleSubmit={handleSubmit} newContrato={newContrato} />
       <AtualizarKmModal open={openUpdate} handleClose={handleCloseUpdate} handleChange={handleKmChange} handleSubmit={handleKmSubmit} kmData={kmData} />
       <FazerRevisaoModal open={openRevisao} handleClose={handleCloseRevisao} handleChange={handleRevisaoChange} handleSubmit={handleRevisaoSubmit} revisaoData={revisaoData} />
+      <SubstituirVeiculoModal open={openSubstituir} handleClose={handleCloseSubstituir} handleChange={handleSubstituicaoChange} handleSubmit={handleSubstituicaoSubmit} substituicaoData={substituicaoData} />
+      <ApagarContratoModal open={openApagar} handleClose={handleCloseApagar} handleChange={handleApagarChange} handleSubmit={handleApagarSubmit} contratoParaApagar={contratoParaApagar} />
+      <HistoricoModal open={openHistorico} handleClose={handleCloseHistorico} contratos={contratos} />
     </Container>
   );
 };

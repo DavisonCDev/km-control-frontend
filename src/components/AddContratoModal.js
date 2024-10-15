@@ -1,3 +1,4 @@
+// src/components/AddContratoModal.js
 import React from 'react';
 import { Modal, Paper, Typography, TextField, Button } from '@mui/material';
 import './AddContratoModal.css';

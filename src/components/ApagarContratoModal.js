@@ -1,31 +1,23 @@
-// src/components/AtualizarKmModal.js
+// src/components/ApagarContratoModal.js
 import React from 'react';
 import { Modal, Paper, Typography, TextField, Button } from '@mui/material';
-import './AtualizarKmModal.css';
+import './ApagarContratoModal.css';
 
-const AtualizarKmModal = ({ open, handleClose, handleChange, handleSubmit, kmData }) => {
+const ApagarContratoModal = ({ open, handleClose, handleChange, handleSubmit, contratoData }) => {
   return (
     <Modal open={open} onClose={handleClose}>
       <Paper className="modalPaper">
-        <Typography variant="h6">Atualizar KM</Typography>
+        <Typography variant="h6">Apagar Contrato</Typography>
         <TextField
-          name="placa"
-          label="Placa"
+          name="numeroContrato"
+          label="Número do Contrato"
           fullWidth
           margin="normal"
-          onChange={handleChange}
-        />
-        <TextField
-          name="kmAtual"
-          label="KM Atual"
-          fullWidth
-          margin="normal"
-          type="number"
           onChange={handleChange}
         />
         <div className="modalButtonContainer">
           <Button variant="contained" color="primary" onClick={handleSubmit}>
-            Atualizar
+            Apagar
           </Button>
           <Button variant="outlined" style={{ color: '#696969' }} onClick={handleClose}>
             Cancelar
@@ -36,4 +28,4 @@ const AtualizarKmModal = ({ open, handleClose, handleChange, handleSubmit, kmDat
   );
 };
 
-export default AtualizarKmModal;
+export default ApagarContratoModal;

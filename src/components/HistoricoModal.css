@@ -1,0 +1,20 @@
+/* HistoricoModal.css */
+.modal-box {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    max-height: 80%;
+    overflow: auto;
+    background-color: white; /* Cor de fundo */
+    border-radius: 8px; /* Cantos arredondados */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Sombra */
+    padding: 20px; /* Preenchimento interno */
+  }
+  
+  .modal-title {
+    margin-bottom: 16px; /* Margem inferior do título */
+    font-size: 1.5rem; /* Tamanho do texto */
+  }
+  
