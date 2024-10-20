@@ -1,4 +1,3 @@
-// src/components/HistoricoModal.js
 import React, { useEffect, useState } from 'react';
 import { Modal, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
@@ -12,7 +11,7 @@ const HistoricoModal = ({ open, handleClose }) => {
         const fetchContratos = async () => {
             try {
                 const response = await axios.get('http://localhost:8081/api/contratos');
-                setContratos(response.data);
+                setContratos(response.data.data); // Ajuste aqui para acessar o array de contratos
             } catch (error) {
                 console.error('Erro ao buscar contratos:', error);
             }
