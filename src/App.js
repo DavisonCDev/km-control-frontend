@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Typography, Grid, Paper } from '@mui/material';
+import { Container, Typography, Grid, Paper, Snackbar } from '@mui/material';
+import MuiAlert from '@mui/material/Alert';
 import axios from 'axios';
 import ContratosTable from './components/ContratosTable';
 import AddContratoModal from './components/AddContratoModal';
@@ -36,15 +37,8 @@ const App = () => {
     valorAluguel: 0,
   });
 
-  const [kmData, setKmData] = useState({
-    placa: '',
-    kmAtual: 0,
-  });
-
-  const [revisaoData, setRevisaoData] = useState({
-    placa: '',
-  });
-
+  const [kmData, setKmData] = useState({ placa: '', kmAtual: 0 });
+  const [revisaoData, setRevisaoData] = useState({ placa: '' });
   const [substituicaoData, setSubstituicaoData] = useState({
     numeroContrato: '',
     placa: '',
@@ -53,16 +47,17 @@ const App = () => {
     marca: '',
     modelo: '',
   });
+  const [contratoParaApagar, setContratoParaApagar] = useState({ numeroContrato: '' });
 
-  const [contratoParaApagar, setContratoParaApagar] = useState({
-    numeroContrato: '',
-  });
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+  const [snackbarSeverity, setSnackbarSeverity] = useState('success'); // 'error' ou 'success'
 
   useEffect(() => {
     const fetchContratos = async () => {
       try {
         const response = await axios.get('http://localhost:8081/api/contratos/ultimos');
-        setContratos(response.data.data || []); // Acesse a propriedade correta
+        setContratos(response.data.data || []);
       } catch (error) {
         console.error('Erro ao buscar contratos:', error);
       }
@@ -70,7 +65,6 @@ const App = () => {
     fetchContratos();
   }, []);
 
-  // Funções de abrir e fechar modais
   const handleOpenAdd = () => setOpenAdd(true);
   const handleCloseAdd = () => setOpenAdd(false);
   const handleOpenUpdate = () => setOpenUpdate(true);
@@ -81,10 +75,9 @@ const App = () => {
   const handleCloseSubstituir = () => setOpenSubstituir(false);
   const handleOpenApagar = () => setOpenApagar(true);
   const handleCloseApagar = () => setOpenApagar(false);
-  const handleOpenHistorico = () => setOpenHistorico(true); 
-  const handleCloseHistorico = () => setOpenHistorico(false); 
+  const handleOpenHistorico = () => setOpenHistorico(true);
+  const handleCloseHistorico = () => setOpenHistorico(false);
 
-  // Funções para manipulação de dados do formulário
   const handleChange = (e) => {
     const { name, value } = e.target;
     setNewContrato((prev) => ({ ...prev, [name]: value }));
@@ -110,20 +103,30 @@ const App = () => {
     setContratoParaApagar((prev) => ({ ...prev, [name]: value }));
   };
 
-  // Funções para submeter os dados
+  const handleSnackbarClose = () => {
+    setOpenSnackbar(false);
+    setSnackbarMessage('');
+  };
+
+  const showSnackbar = (message, severity) => {
+    setSnackbarMessage(message);
+    setSnackbarSeverity(severity);
+    setOpenSnackbar(true);
+  };
+
   const handleSubmit = async () => {
     try {
       const contratoComDataConvertida = {
         ...newContrato,
         dataRegistro: new Date(newContrato.dataRegistro).toISOString().split('T')[0],
       };
-
       await axios.post('http://localhost:8081/api/contratos', contratoComDataConvertida);
       handleCloseAdd();
       const response = await axios.get('http://localhost:8081/api/contratos/ultimos');
       setContratos(response.data.data || []);
+      showSnackbar('Contrato adicionado com sucesso!', 'success');
     } catch (error) {
-      console.error('Erro ao adicionar contrato:', error.response ? error.response.data : error.message);
+      showSnackbar(error.response ? error.response.data.message : 'Erro desconhecido', 'error');
     }
   };
 
@@ -133,8 +136,9 @@ const App = () => {
       handleCloseUpdate();
       const response = await axios.get('http://localhost:8081/api/contratos/ultimos');
       setContratos(response.data.data || []);
+      showSnackbar('KM atualizada com sucesso!', 'success');
     } catch (error) {
-      console.error('Erro ao atualizar KM:', error.response ? error.response.data : error.message);
+      showSnackbar(error.response ? error.response.data.message : 'Erro desconhecido', 'error');
     }
   };
 
@@ -144,8 +148,9 @@ const App = () => {
       handleCloseRevisao();
       const response = await axios.get('http://localhost:8081/api/contratos/ultimos');
       setContratos(response.data.data || []);
+      showSnackbar('Revisão realizada com sucesso!', 'success');
     } catch (error) {
-      console.error('Erro ao fazer revisão:', error.response ? error.response.data : error.message);
+      showSnackbar(error.response ? error.response.data.message : 'Erro desconhecido', 'error');
     }
   };
 
@@ -155,8 +160,9 @@ const App = () => {
       handleCloseSubstituir();
       const response = await axios.get('http://localhost:8081/api/contratos/ultimos');
       setContratos(response.data.data || []);
+      showSnackbar('Veículo substituído com sucesso!', 'success');
     } catch (error) {
-      console.error('Erro ao substituir veículo:', error.response ? error.response.data : error.message);
+      showSnackbar(error.response ? error.response.data.message : 'Erro desconhecido', 'error');
     }
   };
 
@@ -166,8 +172,9 @@ const App = () => {
       handleCloseApagar();
       const response = await axios.get('http://localhost:8081/api/contratos/ultimos');
       setContratos(response.data.data || []);
+      showSnackbar('Contrato apagado com sucesso!', 'success');
     } catch (error) {
-      console.error('Erro ao apagar contrato:', error.response ? error.response.data : error.message);
+      showSnackbar(error.response ? error.response.data.message : 'Erro desconhecido', 'error');
     }
   };
 
@@ -199,6 +206,20 @@ const App = () => {
       <SubstituirVeiculoModal open={openSubstituir} handleClose={handleCloseSubstituir} handleChange={handleSubstituicaoChange} handleSubmit={handleSubstituicaoSubmit} substituicaoData={substituicaoData} />
       <ApagarContratoModal open={openApagar} handleClose={handleCloseApagar} handleChange={handleApagarChange} handleSubmit={handleApagarSubmit} contratoParaApagar={contratoParaApagar} />
       <HistoricoModal open={openHistorico} handleClose={handleCloseHistorico} contratos={contratos} />
+
+      <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleSnackbarClose}>
+        <MuiAlert 
+          onClose={handleSnackbarClose} 
+          severity={snackbarSeverity} 
+          sx={{ width: '100%', backgroundColor: snackbarSeverity === 'success' ? '#4caf50' : '#f44336', color: '#fff' }} 
+          iconMapping={{
+            success: <span style={{ color: '#fff' }}>✔️</span>,
+            error: <span style={{ color: '#fff' }}>❌</span>,
+          }}
+        >
+          {snackbarMessage}
+        </MuiAlert>
+      </Snackbar>
     </Container>
   );
 };

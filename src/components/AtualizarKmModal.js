@@ -1,4 +1,3 @@
-// src/components/AtualizarKmModal.js
 import React from 'react';
 import { Modal, Paper, Typography, TextField, Button } from '@mui/material';
 import './AtualizarKmModal.css';
@@ -18,14 +17,14 @@ const AtualizarKmModal = ({ open, handleClose, handleChange, handleSubmit, kmDat
         <TextField
           name="kmAtual"
           label="KM Atual"
+          type="number"
           fullWidth
           margin="normal"
-          type="number"
           onChange={handleChange}
         />
         <div className="modalButtonContainer">
           <Button variant="contained" color="primary" onClick={handleSubmit}>
-            Atualizar
+            Confirmar
           </Button>
           <Button variant="outlined" style={{ color: '#696969' }} onClick={handleClose}>
             Cancelar
