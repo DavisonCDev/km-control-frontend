@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Typography, Grid, Paper} from '@mui/material';
+import { Container, Typography, Grid, Paper } from '@mui/material';
 import axios from 'axios';
 import ContratosTable from './components/ContratosTable';
 import AddContratoModal from './components/AddContratoModal';
@@ -60,12 +60,17 @@ const App = () => {
 
   useEffect(() => {
     const fetchContratos = async () => {
-      const response = await axios.get('http://localhost:8081/api/contratos/ultimos');
-      setContratos(response.data);
+      try {
+        const response = await axios.get('http://localhost:8081/api/contratos/ultimos');
+        setContratos(response.data.data || []); // Acesse a propriedade correta
+      } catch (error) {
+        console.error('Erro ao buscar contratos:', error);
+      }
     };
     fetchContratos();
   }, []);
 
+  // Funções de abrir e fechar modais
   const handleOpenAdd = () => setOpenAdd(true);
   const handleCloseAdd = () => setOpenAdd(false);
   const handleOpenUpdate = () => setOpenUpdate(true);
@@ -79,6 +84,7 @@ const App = () => {
   const handleOpenHistorico = () => setOpenHistorico(true); 
   const handleCloseHistorico = () => setOpenHistorico(false); 
 
+  // Funções para manipulação de dados do formulário
   const handleChange = (e) => {
     const { name, value } = e.target;
     setNewContrato((prev) => ({ ...prev, [name]: value }));
@@ -104,6 +110,7 @@ const App = () => {
     setContratoParaApagar((prev) => ({ ...prev, [name]: value }));
   };
 
+  // Funções para submeter os dados
   const handleSubmit = async () => {
     try {
       const contratoComDataConvertida = {
@@ -114,7 +121,7 @@ const App = () => {
       await axios.post('http://localhost:8081/api/contratos', contratoComDataConvertida);
       handleCloseAdd();
       const response = await axios.get('http://localhost:8081/api/contratos/ultimos');
-      setContratos(response.data);
+      setContratos(response.data.data || []);
     } catch (error) {
       console.error('Erro ao adicionar contrato:', error.response ? error.response.data : error.message);
     }
@@ -125,7 +132,7 @@ const App = () => {
       await axios.post('http://localhost:8081/api/contratos/atualizar-km', kmData);
       handleCloseUpdate();
       const response = await axios.get('http://localhost:8081/api/contratos/ultimos');
-      setContratos(response.data);
+      setContratos(response.data.data || []);
     } catch (error) {
       console.error('Erro ao atualizar KM:', error.response ? error.response.data : error.message);
     }
@@ -136,7 +143,7 @@ const App = () => {
       await axios.post('http://localhost:8081/api/contratos/fazer-revisao', revisaoData);
       handleCloseRevisao();
       const response = await axios.get('http://localhost:8081/api/contratos/ultimos');
-      setContratos(response.data);
+      setContratos(response.data.data || []);
     } catch (error) {
       console.error('Erro ao fazer revisão:', error.response ? error.response.data : error.message);
     }
@@ -147,7 +154,7 @@ const App = () => {
       await axios.post('http://localhost:8081/api/contratos/substituirVeiculo', substituicaoData);
       handleCloseSubstituir();
       const response = await axios.get('http://localhost:8081/api/contratos/ultimos');
-      setContratos(response.data);
+      setContratos(response.data.data || []);
     } catch (error) {
       console.error('Erro ao substituir veículo:', error.response ? error.response.data : error.message);
     }
@@ -158,7 +165,7 @@ const App = () => {
       await axios.delete(`http://localhost:8081/api/contratos`, { data: contratoParaApagar });
       handleCloseApagar();
       const response = await axios.get('http://localhost:8081/api/contratos/ultimos');
-      setContratos(response.data);
+      setContratos(response.data.data || []);
     } catch (error) {
       console.error('Erro ao apagar contrato:', error.response ? error.response.data : error.message);
     }
